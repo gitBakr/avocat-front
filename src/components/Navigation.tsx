@@ -1,10 +1,17 @@
 
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentLang, setCurrentLang] = useState('fr');
+
+  const languages = [
+    { code: 'fr', label: 'Français' },
+    { code: 'en', label: 'English' },
+    { code: 'ar', label: 'العربية' },
+  ];
 
   return (
     <nav className="bg-surface border-b border-gray-100">
@@ -12,12 +19,31 @@ export const Navigation = () => {
         <div className="flex justify-between h-16">
           <div className="flex">
             <Link to="/" className="flex items-center">
-              <span className="text-xl font-bold text-primary">AppointmentGenius</span>
+              <span className="text-xl font-bold text-primary">RDVAvocats</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-8">
+            <div className="relative group">
+              <button className="nav-link flex items-center space-x-2">
+                <Globe className="h-4 w-4" />
+                <span>{languages.find(lang => lang.code === currentLang)?.label}</span>
+              </button>
+              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block">
+                <div className="py-1" role="menu">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setCurrentLang(lang.code)}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
             <Link to="/avocats" className="nav-link">
               Trouver un avocat
             </Link>
@@ -49,6 +75,20 @@ export const Navigation = () => {
       {isMenuOpen && (
         <div className="md:hidden animate-slide-in">
           <div className="pt-2 pb-3 space-y-1 px-4">
+            <div className="py-2">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  className="block w-full text-left py-2 nav-link"
+                  onClick={() => {
+                    setCurrentLang(lang.code);
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  {lang.label}
+                </button>
+              ))}
+            </div>
             <Link
               to="/avocats"
               className="block py-2 nav-link"
