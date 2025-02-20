@@ -17,20 +17,18 @@ export const Navigation = () => {
     <nav className="bg-surface border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex">
+          <div className="flex items-center space-x-8">
             <Link to="/" className="flex items-center">
               <span className="text-xl font-bold text-primary">RDVAvocats</span>
             </Link>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
+            
+            {/* Language Selector - Always visible */}
             <div className="relative group">
               <button className="nav-link flex items-center space-x-2">
                 <Globe className="h-4 w-4" />
                 <span>{languages.find(lang => lang.code === currentLang)?.label}</span>
               </button>
-              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block">
+              <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block z-50">
                 <div className="py-1" role="menu">
                   {languages.map((lang) => (
                     <button
@@ -44,6 +42,10 @@ export const Navigation = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex md:items-center md:space-x-8">
             <Link to="/avocats" className="nav-link">
               Trouver un avocat
             </Link>
@@ -75,20 +77,6 @@ export const Navigation = () => {
       {isMenuOpen && (
         <div className="md:hidden animate-slide-in">
           <div className="pt-2 pb-3 space-y-1 px-4">
-            <div className="py-2">
-              {languages.map((lang) => (
-                <button
-                  key={lang.code}
-                  className="block w-full text-left py-2 nav-link"
-                  onClick={() => {
-                    setCurrentLang(lang.code);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  {lang.label}
-                </button>
-              ))}
-            </div>
             <Link
               to="/avocats"
               className="block py-2 nav-link"
